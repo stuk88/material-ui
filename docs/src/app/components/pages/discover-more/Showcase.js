@@ -49,6 +49,34 @@ const appList = [
     source: 'https://github.com/marmelab/admin-on-rest',
   },
   {
+    title: 'Flow Dashboard - Personal data for quantified self & habit tracking',
+    author: 'Jeremy Gordon',
+    img: 'images/showcase/flow.png',
+    link: 'http://flowdash.co',
+    source: 'https://github.com/onejgordon/flow-dashboard',
+  },
+  {
+    title: 'Serif.nu - Course planning for Northwestern University',
+    author: 'Joon Park',
+    img: 'images/showcase/serif-nu.png',
+    link: 'https://serif.nu',
+    source: 'https://github.com/Joonpark13/serif.nu',
+  },
+  {
+    title: 'Order form for Wedding Videos',
+    author: 'Sergey Reznikov',
+    img: 'images/showcase/wv-order-form.png',
+    link: 'http://order-form.reznikov.online/',
+    source: 'https://bitbucket.org/wzup/order-form',
+  },
+  {
+    title: 'React Most Wanted',
+    author: 'Tarik Huber',
+    img: 'images/showcase/react-most-wanted.png',
+    link: 'https://www.react-most-wanted.com/',
+    source: 'https://github.com/TarikHuber/react-most-wanted',
+  },
+  {
     title: 'Cloudcraft',
     author: 'Cloudcraft',
     img: 'images/showcase/cloudcraft.png',
@@ -97,16 +125,28 @@ const appList = [
     link: 'https://www.realtyadvisorselite.com/',
   },
   {
-    title: 'Humorista Jokes',
-    author: 'Minas Mina',
-    img: 'images/showcase/humorista.png',
-    link: 'https://humorista.org/',
-  },
-  {
     title: 'ApiRequest Capture (Chrome Extension)',
     author: 'team@moesif.com',
     img: 'images/showcase/apirequest-capture-by-moesif.png',
     link: 'https://chrome.google.com/webstore/detail/apirequestio-capture/aeojbjinmmhjenohjehcidmappiodhjm',
+  },
+  {
+    title: 'SlimChess - Instant Chess Games on the Go',
+    author: 'Larry Xu',
+    img: 'images/showcase/slimchess.png',
+    link: 'https://slimchess.com',
+  },
+  {
+    title: 'DevSketch',
+    author: 'Hai Le',
+    img: 'images/showcase/devsketch.png',
+    link: 'https://devsketch.io/',
+  },
+  {
+    title: 'BrainBOK - PMP / CAPM Exam Prep Simplified',
+    author: 'BrainBOK',
+    img: 'images/showcase/brainbok-for-pmp-capm-certification.png',
+    link: 'https://www.brainbok.com',
   },
 ];
 

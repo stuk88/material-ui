@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import transitions from '../styles/transitions';
-import {createChildFragment} from '../utils/childUtils';
 import {fade} from '../utils/colorManipulator';
 import EnhancedButton from '../internal/EnhancedButton';
 import FlatButtonLabel from './FlatButtonLabel';
@@ -35,6 +35,21 @@ class FlatButton extends Component {
      * The CSS class name of the root element.
      */
     className: PropTypes.string,
+    /**
+     * The element to use as the container for the FlatButton. Either a string to
+     * use a DOM element or a ReactElement. This is useful for wrapping the
+     * FlatButton in a custom Link component. If a ReactElement is given, ensure
+     * that it passes all of its given props through to the underlying DOM
+     * element and renders its children prop for proper integration.
+     */
+    containerElement: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ]),
+    /**
+     * If true, the element's ripple effect will be disabled.
+     */
+    disableTouchRipple: PropTypes.bool,
     /**
      * Disables the button if set to true.
      */
@@ -180,6 +195,7 @@ class FlatButton extends Component {
     } = this.props;
 
     const {
+      borderRadius,
       button: {
         height: buttonHeight,
         minWidth: buttonMinWidth,
@@ -215,7 +231,7 @@ class FlatButton extends Component {
       minWidth: fullWidth ? '100%' : buttonMinWidth,
       color: defaultTextColor,
       transition: transitions.easeOut(),
-      borderRadius: 2,
+      borderRadius,
       userSelect: 'none',
       overflow: 'hidden',
       backgroundColor: hovered ? buttonHoverColor : buttonBackgroundColor,
@@ -236,6 +252,7 @@ class FlatButton extends Component {
       iconCloned = React.cloneElement(icon, {
         color: icon.props.color || mergedRootStyles.color,
         style: iconStyles,
+        key: 'iconCloned',
       });
 
       if (labelPosition === 'before') {
@@ -253,23 +270,21 @@ class FlatButton extends Component {
     }, labelStyleIcon, labelStyle);
 
     const labelElement = label ? (
-      <FlatButtonLabel label={label} style={mergedLabelStyles} />
+      <FlatButtonLabel key="labelElement" label={label} style={mergedLabelStyles} />
     ) : undefined;
 
     // Place label before or after children.
-    const childrenFragment = labelPosition === 'before' ?
-    {
+    const enhancedButtonChildren = labelPosition === 'before' ?
+    [
       labelElement,
       iconCloned,
       children,
-    } :
-    {
+    ] :
+    [
       children,
       iconCloned,
       labelElement,
-    };
-
-    const enhancedButtonChildren = createChildFragment(childrenFragment);
+    ];
 
     return (
       <EnhancedButton

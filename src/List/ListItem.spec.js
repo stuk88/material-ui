@@ -2,6 +2,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {assert} from 'chai';
+import {spy} from 'sinon';
 import ListItem from './ListItem';
 import EnhancedButton from '../internal/EnhancedButton';
 import getMuiTheme from '../styles/getMuiTheme';
@@ -74,6 +75,19 @@ describe('<ListItem />', () => {
     );
     assert.ok(wrapper.find('.test-checkbox').length);
     assert.strictEqual(wrapper.find(`.${testClass}`).length, 1, 'should have a div with the test class');
+  });
+
+  it('should trigger onTouchTap handler when appropriate.', () => {
+    const onTouchTap = spy();
+    const wrapper = shallowWithContext(
+      <ListItem
+        onTouchTap={onTouchTap}
+      />
+    );
+    const primaryTextButton = wrapper.find(EnhancedButton);
+
+    primaryTextButton.simulate('touchTap', {stopPropagation: () => {}});
+    assert.strictEqual(onTouchTap.callCount, 1);
   });
 
   describe('prop: primaryTogglesNestedList', () => {
@@ -177,12 +191,20 @@ describe('<ListItem />', () => {
   });
 
   describe('prop: hoverColor', () => {
+    const testColor = '#ededed';
+
     it('should use a background color on hover if hoverColor is specified', () => {
-      const testColor = '#ededed';
       const wrapper = shallowWithContext(
         <ListItem hoverColor={testColor} />
       );
       wrapper.find(EnhancedButton).simulate('mouseEnter');
+      assert.strictEqual(wrapper.find(EnhancedButton).props().style.backgroundColor, testColor);
+    });
+
+    it('should use a background color if isKeyboardFocused is true', () => {
+      const wrapper = shallowWithContext(
+        <ListItem hoverColor={testColor} isKeyboardFocused={true} />
+      );
       assert.strictEqual(wrapper.find(EnhancedButton).props().style.backgroundColor, testColor);
     });
   });
@@ -199,6 +221,31 @@ describe('<ListItem />', () => {
         disabled: true,
       });
       assert.strictEqual(wrapper.state().hovered, false, 'should reset the state');
+    });
+  });
+
+  describe('prop: containerElement', () => {
+    it('should use the given string containerElement prop', () => {
+      const wrapper = shallowWithContext(
+        <ListItem
+          containerElement="a"
+          primaryText="Links are great"
+        />
+      );
+      const button = wrapper.find(EnhancedButton).dive({context: {muiTheme}});
+      assert.strictEqual(button.is('a'), true, 'should match an a element');
+    });
+
+    it('should use the given ReactElement containerElement', () => {
+      const CustomElement = (props) => <a {...props} />;
+      const wrapper = shallowWithContext(
+        <ListItem
+          containerElement={<CustomElement someProp="yuuuuuge" />}
+          primaryText="Custom links are even greater"
+        />
+      );
+      const button = wrapper.find(EnhancedButton).dive({context: {muiTheme}});
+      assert.strictEqual(button.is(CustomElement), true, 'should match the custom element');
     });
   });
 });
